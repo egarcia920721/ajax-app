@@ -1,0 +1,92 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="input-ajax">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <iron-ajax
+     id="addUser"
+     url="http://localhost:8080/api/contacto"
+     body="{{params}}"
+     method="POST"
+     handle-as="json"
+     content-type="application/json"
+     on-response="handlerAddUser">
+    </iron-ajax>
+
+    <paper-input
+      label="Nombre"
+      type="text"
+      pattern="^[A-z\s]{1,10}"
+      auto-validate
+      error-message="Nombre no valido"
+      value="{{nombre}}"
+      required>
+    </paper-input>
+
+    <paper-button raised on-click="save">Guardar</paper-button>
+    <paper-button raised on-click="cancel">Cancelar</paper-button>
+
+
+  </template>
+
+  <script>
+    /**
+     * `input-ajax`
+     *
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class InputAjax extends Polymer.Element {
+      static get is() { return 'input-ajax'; }
+
+      static get properties() {
+        return {
+          nombre: {
+            type: String,
+            notify: true,
+            reflectToAttribute: true,
+          },
+          params: {
+            type: Object,
+          },
+        };
+      }
+
+      save() {
+        this.params = {
+          nombre: this.nombre,
+          telpersonal: '5512345678',
+          correopersonal: 'contacto@personal.com',
+          teloficina: '5509876543',
+          correooficina: 'contacto@oficina.com',
+          fechanacimiento: '01-01-1990',
+        };
+        this.$.addUser.generateRequest();
+      }
+
+      handlerAddUser(e) {
+        let response = e.detail;
+        this.dispatchEvent(new CustomEvent('save-custom-event',
+          { detail: response, bubbles: true, composed: true }));
+      }
+
+      cancel() {
+        this.dispatchEvent(new CustomEvent('cancel-custom-event',
+          { detail: 'btn-cancel', bubbles: true, composed: true }));
+      }
+
+    }
+
+    window.customElements.define(InputAjax.is, InputAjax);
+  </script>
+</dom-module>

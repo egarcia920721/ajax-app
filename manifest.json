@@ -1,0 +1,6 @@
+{
+  "name": "prueba-ajax",
+  "short_name": "prueba-ajax",
+  "start_url": "/",
+  "display": "standalone"
+}

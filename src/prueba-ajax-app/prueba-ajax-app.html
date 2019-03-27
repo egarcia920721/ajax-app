@@ -1,0 +1,68 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../components/input-ajax.html">
+<link rel="import" href="../components/table-ajax.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
+
+<dom-module id="prueba-ajax-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <input-ajax on-save-custom-event="handlerSaveCustomEvent"></input-ajax>
+    <br>
+    <p>Respuesta  - Add User: [[responseAdd]]</p>
+    <br>
+    <iron-ajax
+     id="getAllContacts"
+     auto
+     url="http://localhost:8080/api/contactos"
+     method="GET"
+     handle-as="json"
+     content-type="application/json"
+     last-response="{{responseGetAll}}">
+    </iron-ajax>
+
+
+
+    <template is="dom-repeat" items="{{responseGetAll}}" as="users">
+      <h4>[[users.nombre]]</h4>
+    </template>
+
+    <table-ajax contacts-padre="{{responseGetAll}}"></table-ajax>
+
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class PruebaAjaxApp extends Polymer.Element {
+      static get is() { return 'prueba-ajax-app'; }
+      static get properties() {
+        return {
+          responseAdd: {
+            type: String,
+          },
+          responseGetAll: {
+            type: Array,
+          },
+        };
+      }
+
+      handlerSaveCustomEvent(e) {
+        this.responseAdd = JSON.stringify(e.detail.response);
+        this.ajaxContacts();
+      }
+
+      ajaxContacts() {
+        this.$.getAllContacts.generateRequest();
+      }
+
+    }
+
+    window.customElements.define(PruebaAjaxApp.is, PruebaAjaxApp);
+  </script>
+</dom-module>
