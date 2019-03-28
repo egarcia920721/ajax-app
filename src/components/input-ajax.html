@@ -15,7 +15,7 @@
         background-color: var(--paper-green-500);
         color: white;
       }
-      paper-button.cancel {
+      paper-button.reset {
         background-color: var(--paper-pink-500);
         color: white;
       }
@@ -39,7 +39,7 @@
      method="POST"
      handle-as="json"
      content-type="application/json"
-     on-response="handlerAddUser">
+     on-response="responseAddContact">
     </iron-ajax>
 
     <iron-ajax
@@ -49,7 +49,7 @@
      method="PUT"
      handle-as="json"
      content-type="application/json"
-     on-response="handlerUpdateUser">
+     on-response="responseUpdateContact">
     </iron-ajax>
 
     <iron-form id="formContacto">
@@ -126,7 +126,7 @@
       <div class="container flex block">
         <div class="row">
           <paper-button raised class="save" on-click="save">Guardar</paper-button>
-          <paper-button raised class="cancel" on-click="cancel">Cancelar</paper-button>
+          <paper-button raised class="reset" on-click="cancel">Cancelar</paper-button>
         </div>
       </div>
     </iron-form>
@@ -195,7 +195,8 @@
         }
       }
 
-      cancel() {
+      reset() {
+        this.id = '';
         this.nombre = '';
         this.telpersonal = '';
         this.correopersonal = '';
@@ -204,10 +205,13 @@
         this.fechanacimiento = '';
       }
 
-      handlerAddUser(e) {
+      responseAddContact(e) {
         let response = e.detail;
-        this.dispatchEvent(new CustomEvent('save-contact',
-          { detail: response, bubbles: true, composed: true }));
+        if (response.status === 200) {
+          this.dispatchEvent(new CustomEvent('save-contact',
+            { detail: response, bubbles: true, composed: true }));
+          this.reset();
+        }
       }
 
       _changeContact() {
@@ -220,10 +224,13 @@
         this.fechanacimiento = this.objContact.fechanacimiento;
       }
 
-      handlerUpdateUser(e) {
+      responseUpdateContact(e) {
         let response = e.detail;
-        this.dispatchEvent(new CustomEvent('update-contact',
-          { detail: response, bubbles: true, composed: true }));
+        if (response.status === 200) {
+          this.dispatchEvent(new CustomEvent('update-contact',
+            { detail: response, bubbles: true, composed: true }));
+          this.reset();
+        }
       }
 
     }

@@ -43,6 +43,15 @@
      last-response="{{responseGetContact}}">
     </iron-ajax>
 
+    <iron-ajax
+     id="deleteContact"
+     url="http://localhost:8080/api/contacto/{{id}}"
+     method="DELETE"
+     handle-as="json"
+     content-type="application/json"
+     on-response="handlerConfirmDeleteContact">
+    </iron-ajax>
+
     <!-- <br>
     <p>Respuesta  - Add User: [[responseAdd]]</p>
     <br>
@@ -58,7 +67,10 @@
           obj-contact="{{responseGetContact}}"></input-ajax>
       </div>
       <div class="row">
-        <table-ajax all-contacts="{{responseGetAllContacts}}" on-edit-contact="handlerEditContact"></table-ajax>
+        <table-ajax
+          all-contacts="{{responseGetAllContacts}}"
+          on-edit-contact="handlerEditContact"
+          on-delete-contact="handlerDeleteContact"></table-ajax>
       </div>
 
     </div>
@@ -92,13 +104,13 @@
       handlerSaveContact(e) {
         console.log(e);
         this.responseAdd = JSON.stringify(e.detail.response);
-        this.ajaxContacts();
+        this.refreshContacts();
       }
 
       handlerUpdateContact(e) {
         console.log(e);
         this.responseUpdate = JSON.stringify(e.detail.response);
-        this.ajaxContacts();
+        this.refreshContacts();
       }
 
       handlerEditContact(e) {
@@ -106,7 +118,17 @@
         this.$.getContact.generateRequest();
       }
 
-      ajaxContacts() {
+      handlerDeleteContact(e) {
+        this.id = e.detail;
+        this.$.deleteContact.generateRequest();
+      }
+
+      handlerConfirmDeleteContact(e) {
+        console.log('Contacto eliminado.');
+        this.refreshContacts();
+      }
+
+      refreshContacts() {
         this.$.getAllContacts.generateRequest();
       }
 
