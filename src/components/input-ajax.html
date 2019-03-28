@@ -2,6 +2,8 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 
 <dom-module id="input-ajax">
   <template>
@@ -9,10 +11,29 @@
       :host {
         display: block;
       }
+      paper-button.save {
+        background-color: var(--paper-green-500);
+        color: white;
+      }
+      paper-button.cancel {
+        background-color: var(--paper-pink-500);
+        color: white;
+      }
+      .flex {
+        width: 50%;
+        @apply --layout-horizontal;
+      }
+      .row {
+        padding: 10px 20px !important;
+        width: 50%;
+      }
+      .block {
+        width: 100% !important;
+      }
     </style>
 
     <iron-ajax
-     id="addUser"
+     id="addContact"
      url="http://localhost:8080/api/contacto"
      body="{{params}}"
      method="POST"
@@ -21,43 +42,138 @@
      on-response="handlerAddUser">
     </iron-ajax>
 
-    <paper-input
-      label="Nombre"
-      type="text"
-      pattern="^[A-z\s]{1,10}"
-      auto-validate
-      error-message="Nombre no valido"
-      value="{{nombre}}"
-      required>
-    </paper-input>
+    <iron-ajax
+     id="updateContact"
+     url="http://localhost:8080/api/contacto/{{objContact.id}}"
+     body="{{params}}"
+     method="PUT"
+     handle-as="json"
+     content-type="application/json"
+     on-response="handlerUpdateUser">
+    </iron-ajax>
 
-    <paper-button raised on-click="save">Guardar</paper-button>
-    <paper-button raised on-click="cancel">Cancelar</paper-button>
-
+    <iron-form id="formContacto">
+      <h4 class="row">Formulario Contacto(s)</h4>
+      <div class="container flex block">
+        <div class="row">
+          <paper-input
+            label="Nombre"
+            type="text"
+            pattern="^[A-z\sáéíóúÁÉÍÓÚüÜ]{1,60}"
+            auto-validate
+            error-message="Nombre no valido"
+            value="{{nombre}}"
+            required>
+          </paper-input>
+        </div>
+        <div class="row">
+          <paper-input
+            label="Fecha de nacimiento"
+            type="date"
+            value="{{fechanacimiento}}"
+            required>
+          </paper-input>
+        </div>
+      </div>
+      <div class="container flex block">
+        <div class="row">
+          <paper-input
+            label="Tel. Personal"
+            type="text"
+            pattern="^[0-9]{10}"
+            auto-validate
+            error-message="Número no valido"
+            value="{{telpersonal}}"
+            required>
+          </paper-input>
+        </div>
+        <div class="row">
+          <paper-input
+            label="Correo Personal"
+            type="text"
+            pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+            auto-validate
+            error-message="Correo no valido"
+            value="{{correopersonal}}"
+            required>
+          </paper-input>
+        </div>
+      </div>
+      <div class="container flex block">
+        <div class="row">
+          <paper-input
+            label="Tel. Oficina"
+            type="text"
+            pattern="^[0-9]{10}"
+            auto-validate
+            error-message="Número no valido"
+            value="{{teloficina}}"
+            required>
+          </paper-input>
+        </div>
+        <div class="row">
+          <paper-input
+            label="Correo Oficina"
+            type="text"
+            pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+            auto-validate
+            error-message="Correo no valido"
+            value="{{correooficina}}"
+            required>
+          </paper-input>
+        </div>
+      </div>
+      <div class="container flex block">
+        <div class="row">
+          <paper-button raised class="save" on-click="save">Guardar</paper-button>
+          <paper-button raised class="cancel" on-click="cancel">Cancelar</paper-button>
+        </div>
+      </div>
+    </iron-form>
 
   </template>
 
   <script>
-    /**
-     * `input-ajax`
-     *
-     *
-     * @customElement
-     * @polymer
-     * @demo demo/index.html
-     */
     class InputAjax extends Polymer.Element {
       static get is() { return 'input-ajax'; }
 
       static get properties() {
         return {
+          id: {
+            type: Number,
+            value: 0,
+            reflectToAttribute: true,
+          },
           nombre: {
             type: String,
-            notify: true,
+            reflectToAttribute: true,
+          },
+          telpersonal: {
+            type: String,
+            reflectToAttribute: true,
+          },
+          correopersonal: {
+            type: String,
+            reflectToAttribute: true,
+          },
+          teloficina: {
+            type: String,
+            reflectToAttribute: true,
+          },
+          correooficina: {
+            type: String,
+            reflectToAttribute: true,
+          },
+          fechanacimiento: {
+            type: String,
             reflectToAttribute: true,
           },
           params: {
             type: Object,
+          },
+          objContact: {
+            type: Object,
+            observer: '_changeContact',
           },
         };
       }
@@ -65,24 +181,49 @@
       save() {
         this.params = {
           nombre: this.nombre,
-          telpersonal: '5512345678',
-          correopersonal: 'contacto@personal.com',
-          teloficina: '5509876543',
-          correooficina: 'contacto@oficina.com',
-          fechanacimiento: '01-01-1990',
+          telpersonal: this.telpersonal,
+          correopersonal: this.correopersonal,
+          teloficina: this.teloficina,
+          correooficina: this.correooficina,
+          fechanacimiento: this.fechanacimiento,
         };
-        this.$.addUser.generateRequest();
+        if (this.id > 0) {
+          this.params.id = this.id;
+          this.$.updateContact.generateRequest();
+        } else {
+          this.$.addContact.generateRequest();
+        }
+      }
+
+      cancel() {
+        this.nombre = '';
+        this.telpersonal = '';
+        this.correopersonal = '';
+        this.teloficina = '';
+        this.correooficina = '';
+        this.fechanacimiento = '';
       }
 
       handlerAddUser(e) {
         let response = e.detail;
-        this.dispatchEvent(new CustomEvent('save-custom-event',
+        this.dispatchEvent(new CustomEvent('save-contact',
           { detail: response, bubbles: true, composed: true }));
       }
 
-      cancel() {
-        this.dispatchEvent(new CustomEvent('cancel-custom-event',
-          { detail: 'btn-cancel', bubbles: true, composed: true }));
+      _changeContact() {
+        this.id = this.objContact.id;
+        this.nombre = this.objContact.nombre;
+        this.telpersonal = this.objContact.telpersonal;
+        this.correopersonal = this.objContact.correopersonal;
+        this.teloficina = this.objContact.teloficina;
+        this.correooficina = this.objContact.correooficina;
+        this.fechanacimiento = this.objContact.fechanacimiento;
+      }
+
+      handlerUpdateUser(e) {
+        let response = e.detail;
+        this.dispatchEvent(new CustomEvent('update-contact',
+          { detail: response, bubbles: true, composed: true }));
       }
 
     }

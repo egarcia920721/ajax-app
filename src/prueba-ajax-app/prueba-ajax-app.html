@@ -8,12 +8,22 @@
     <style>
       :host {
         display: block;
+        font-family: Roboto;
+      }
+      .container {
+        margin: auto;
+        padding: 5%;
+        background-color: #eaeaea;
+        border-radius: 5px;
+      }
+      .row {
+        margin: 2%;
+        padding: 3%;
+        background-color: #fff;
+        border-radius: 5px;
+        overflow: auto;
       }
     </style>
-    <input-ajax on-save-custom-event="handlerSaveCustomEvent"></input-ajax>
-    <br>
-    <p>Respuesta  - Add User: [[responseAdd]]</p>
-    <br>
     <iron-ajax
      id="getAllContacts"
      auto
@@ -21,40 +31,79 @@
      method="GET"
      handle-as="json"
      content-type="application/json"
-     last-response="{{responseGetAll}}">
+     last-response="{{responseGetAllContacts}}">
     </iron-ajax>
 
+    <iron-ajax
+     id="getContact"
+     url="http://localhost:8080/api/contacto/{{id}}"
+     method="GET"
+     handle-as="json"
+     content-type="application/json"
+     last-response="{{responseGetContact}}">
+    </iron-ajax>
 
-
-    <template is="dom-repeat" items="{{responseGetAll}}" as="users">
+    <!-- <br>
+    <p>Respuesta  - Add User: [[responseAdd]]</p>
+    <br>
+    <template is="dom-repeat" items="{{responseGetAllContacts}}" as="users">
       <h4>[[users.nombre]]</h4>
-    </template>
+    </template> -->
 
-    <table-ajax contacts-padre="{{responseGetAll}}"></table-ajax>
+    <div class="container">
+      <div class="row">
+        <input-ajax
+          on-save-contact="handlerSaveContact"
+          on-update-contact="handlerUpdateContact"
+          obj-contact="{{responseGetContact}}"></input-ajax>
+      </div>
+      <div class="row">
+        <table-ajax all-contacts="{{responseGetAllContacts}}" on-edit-contact="handlerEditContact"></table-ajax>
+      </div>
+
+    </div>
 
   </template>
 
   <script>
-    /**
-     * @customElement
-     * @polymer
-     */
     class PruebaAjaxApp extends Polymer.Element {
       static get is() { return 'prueba-ajax-app'; }
+
       static get properties() {
         return {
           responseAdd: {
             type: String,
           },
-          responseGetAll: {
+          responseUpdate: {
+            type: String,
+          },
+          responseGetAllContacts: {
             type: Array,
+          },
+          responseGetContact: {
+            type: String,
+          },
+          id: {
+            type: Number,
           },
         };
       }
 
-      handlerSaveCustomEvent(e) {
+      handlerSaveContact(e) {
+        console.log(e);
         this.responseAdd = JSON.stringify(e.detail.response);
         this.ajaxContacts();
+      }
+
+      handlerUpdateContact(e) {
+        console.log(e);
+        this.responseUpdate = JSON.stringify(e.detail.response);
+        this.ajaxContacts();
+      }
+
+      handlerEditContact(e) {
+        this.id = e.detail;
+        this.$.getContact.generateRequest();
       }
 
       ajaxContacts() {

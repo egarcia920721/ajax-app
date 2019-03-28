@@ -9,13 +9,25 @@
       :host {
         display: block;
       }
+      paper-button.edit {
+        background-color: var(--paper-blue-500);
+        color: white;
+      }
+      paper-button.delete {
+        background-color: var(--paper-red-500);
+        color: white;
+      }
+      table {
+        width: 100%;
+      }
     </style>
 
+    <h4>Conctacto(s)</h4>
     <table>
       <thead>
         <tr>
           <th>ID</th>
-          <th>Nommbre</th>
+          <th>Nombre</th>
           <th>Tel. Personal</th>
           <th>Email Personal</th>
           <th>Tel. Oficina</th>
@@ -26,7 +38,7 @@
         </tr>
       </thead>
       <tbody>
-        <template is="dom-repeat" items="{{contactsPadre}}" as="item">
+        <template is="dom-repeat" items="{{allContacts}}" as="item">
         <tr>
             <td>[[item.id]]</td>
             <td>[[item.nombre]]</td>
@@ -35,41 +47,39 @@
             <td>[[item.teloficina]]</td>
             <td>[[item.correooficina]]</td>
             <td>[[item.fechanacimiento]]</td>
-            <td><paper-button raised id$="[[item.id]]" on-click="edit">Editar</paper-button></td>
-            <td><paper-button raised id$="[[item.id]]" on-click="delete">Eliminar</paper-button></td>
+            <td><paper-button raised id$="[[item.id]]" class="edit" on-click="edit">Editar</paper-button></td>
+            <td><paper-button raised id$="[[item.id]]" class="delete" on-click="delete">Eliminar</paper-button></td>
         </tr>
         </template>
       </tbody>
     </table>
 
   </template>
-
   <script>
-    /**
-     * `table-ajax`
-     *
-     *
-     * @customElement
-     * @polymer
-     * @demo demo/index.html
-     */
     class TableAjax extends Polymer.Element {
       static get is() { return 'table-ajax'; }
 
       static get properties() {
         return {
-          contactsPadre: {
+          allContacts: {
             type: Object,
+          },
+          id: {
+            type: Number,
           },
         };
       }
 
       edit(e) {
-        console.log(e.path[2].id);
+        this.id = e.target.id;
+        this.dispatchEvent(new CustomEvent('edit-contact',
+          { detail: this.id, bubbles: true, composed: true }));
       }
 
       delete(e) {
-        console.log(e.path[2].id);
+        this.id = e.target.id;
+        this.dispatchEvent(new CustomEvent('delete-contact',
+          { detail: this.id, bubbles: true, composed: true }));
       }
 
     }
