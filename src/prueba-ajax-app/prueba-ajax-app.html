@@ -102,13 +102,11 @@
       }
 
       handlerSaveContact(e) {
-        console.log(e);
         this.responseAdd = JSON.stringify(e.detail.response);
         this.refreshContacts();
       }
 
       handlerUpdateContact(e) {
-        console.log(e);
         this.responseUpdate = JSON.stringify(e.detail.response);
         this.refreshContacts();
       }
