@@ -2,23 +2,23 @@
   "alumns": [
     {
       "id": 1,
-      "title": "Eduardo"
+      "name": "Eduardo"
     },
     {
       "id": 2,
-      "title": "Freddy"
+      "name": "Freddy"
     },
     {
       "id": 3,
-      "title": "Arturo"
+      "name": "Arturo"
     },
     {
       "id": 4,
-      "title": "Jonathan"
+      "name": "Jonathan"
     },
     {
       "id": 5,
-      "title": "Rodrigo"
+      "name": "Rodrigo"
     },
-  ]
+  ],
 }
