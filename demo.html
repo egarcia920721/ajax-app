@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Demo</title>
+</head>
+<body>
+  <button type="button" onclick="_GETAll()">GET/ All alumns</button>
+  <button type="button" onclick="_GETOnlyOne">GET/ Only one alumn</button>
+</body>
+<script>
+function _GETAll() {
+  fetch('https://my-json-server.typicode.com/egarcia920721/test-questionnaires/alumns')
+    .then(response => response.json())
+    .then(json => console.log(json))
+}
+
+function _GETOnlyOne() {
+  fetch('https://my-json-server.typicode.com/egarcia920721/test-questionnaires/alumns/3')
+    .then(response => response.json())
+    .then(json => console.log(json))
+}
+
+</script>
+</html>

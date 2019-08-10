@@ -1,216 +1,24 @@
 {
-  "questionnaires": [
-    { "id": "v0", "title": "json-server", "author": "typicode" }
-  ],
-  "questionnaires": {
-    "messages": [],
-    "data": [
-      {
-        "id": 2002,
-        "questionnaireType": {
-          "id": "PERFILADOR_INVEST_FFMM"
-        },      
-        "status": {
-          "id": "NEW",
-          "description": "NUEVO"
-        },
-        "mode": {
-          "id": "ACTIVE",
-          "description": "ACTIVO"
-        },
-        "questions": [
-          {
-            "id": 3,
-            "description": "¿Cuál es tu horizonte de inversión?",
-            "questionType": {
-              "id": "SINGLE_CHOICE",
-              "description": "SELECCION INDIVIDUAL"
-            },
-            "tooltip": {
-              "description": "Horizonte de inversión: Es el plazo en el que estas dispuesto a invertir tu dinero."
-            },
-            "isRequired": true,
-            "canUpdate": false,
-            "questionOptions": [
-              {
-                "id": 1,
-                "description": "Corto Plazo (menor o igual a 1 año)",
-                "value": 1,
-                "isSelected": false
-              },
-              {
-                "id": 2,
-                "description": "Mediano Plazo (entre 1 año y 3 años)",
-                "value": 2,
-                "isSelected": false
-              },
-              {
-                "id": 3,
-                "description": "Largo Plazo (mayor a 3 años)",
-                "value": 3,
-                "isSelected": false
-              }
-            ]
-          },
-          {
-            "id": 6,
-            "description": "Teniendo en cuenta que el valor de tu Inversión puede variar con el tiempo, si pasado un año disminuye 5% ¿qué harías?",
-            "questionType": {
-              "id": "SINGLE_CHOICE",
-              "description": "SELECCION INDIVIDUAL"
-            },
-            "tooltip": {
-              "description": "Tolerancia a riesgo: Es el nivel de riesgo que el inversionista puede o esta dispuesto a soportar."
-            },
-            "isRequired": true,
-            "canUpdate": false,
-            "questionOptions": [
-              {
-                "id": 4,
-                "description": "Disminuiría mi inversión (vendería, asumiendo las pérdidas, para no arriesgar más)",
-                "value": 1,
-                "isSelected": false
-              },
-              {
-                "id": 5,
-                "description": "Mantendría mi inversión (no haría cambios confiado en una recuperación)",
-                "value": 2,
-                "isSelected": false
-              },
-              {
-                "id": 6,
-                "description": "Aumentaría mi inversión (aprovecharía la caída de los precios para invertir más)",
-                "value": 3,
-                "isSelected": false
-              }
-            ]
-          },
-          {
-            "id": 7,
-            "description": "Tus ingresos lo puedes considerar como",
-            "questionType": {
-              "id": "SINGLE_CHOICE",
-              "description": "SELECCION INDIVIDUAL"
-            },
-            "tooltip": {
-              "description": "Situación económica del inversionista a fin de evaluar la estabilidad de los ingresos."
-            },
-            "isRequired": true,
-            "canUpdate": false,
-            "questionOptions": [
-              {
-                "id": 7,
-                "description": "Poco Estables",
-                "value": 1,
-                "isSelected": false
-              },
-              {
-                "id": 8,
-                "description": "Estables",
-                "value": 2,
-                "isSelected": false
-              },
-              {
-                "id": 9,
-                "description": "Muy Estables",
-                "value": 3,
-                "isSelected": false
-              }
-            ]
-          },
-          {
-            "id": 8,
-            "description": "Respecto a mis ingresos, tengo una capacidad de ahorro mensual de",
-            "questionType": {
-              "id": "SINGLE_CHOICE",
-              "description": "SELECCION INDIVIDUAL"
-            },
-            "tooltip": {
-              "description": "Capacidad de ahorro: Es el % de tus ingresos destinado al ahorro e inversión."
-            },
-            "isRequired": true,
-            "canUpdate": false,
-            "questionOptions": [
-              {
-                "id": 10,
-                "description": "Menor a 10%",
-                "value": 1,
-                "isSelected": false
-              },
-              {
-                "id": 11,
-                "description": "Entre 10% - 20%",
-                "value": 2,
-                "isSelected": false
-              },
-              {
-                "id": 12,
-                "description": "Más del 20%",
-                "value": 3,
-                "isSelected": false
-              }
-            ]
-          },
-          {
-            "id": 10,
-            "description": "En los Últimos 5 años ha invertido en forma directa o indirecta en (marca todas las que apliquen):",
-            "questionType": {
-              "id": "MULTIPLE_CHOICE",
-              "description": "SELECCION MULTIPLE"
-            },
-            "tooltip": {
-              "description": "Conocimientos financieros: Es la capacidad y/o habilidad que permite tomar decisiones informadas con relación a recursos financieros."
-            },
-            "isRequired": true,
-            "canUpdate": false,
-            "questionOptions": [
-              {
-                "id": 13,
-                "description": "Nunca he invertido",
-                "value": 1,
-                "isSelected": false
-              },
-              {
-                "id": 14,
-                "description": "Fondos Mutuos",
-                "value": 2,
-                "isSelected": false
-              },
-              {
-                "id": 15,
-                "description": "Depósito de interés variable (DIVAS)",
-                "value": 1,
-                "isSelected": false
-              },
-              {
-                "id": 16,
-                "description": "Bonos o papeles comerciales",
-                "value": 2,
-                "isSelected": false
-              },
-              {
-                "id": 17,
-                "description": "Acciones o ETFs",
-                "value": 3,
-                "isSelected": false
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  "risk": [
-    { "id": "v1" }
-  ],
-  "profile": [
+  "alumns": [
     {
-      "id": "123456",
-      "name": "Moderate",
-      "recalculationAttemptsLeft": 1,
-      "riskProfile": 6.75,
-      "riskProfileType": "MODERATE",
-      "status": "INACTIVE"
-    }    
+      "id": 1,
+      "title": "Eduardo"
+    },
+    {
+      "id": 2,
+      "title": "Freddy"
+    },
+    {
+      "id": 3,
+      "title": "Arturo"
+    },
+    {
+      "id": 4,
+      "title": "Jonathan"
+    },
+    {
+      "id": 5,
+      "title": "Rodrigo"
+    },
   ]
 }
