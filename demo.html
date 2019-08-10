@@ -7,20 +7,36 @@
   <title>Demo</title>
 </head>
 <body>
-  <button type="button" onclick="_GETAll()">GET/ All alumns</button>
-  <button type="button" onclick="_GETOnlyOne">GET/ Only one alumn</button>
+  <button type="button" onclick="_GETQuestionnaires()">GET/ Questionnaires</button>
+  <button type="button" onclick="_GETProfile()">GET/ Profile</button>
+
+  <pre id="show"></pre>
+  <h2>Results:</h2>
+  <pre id="showResult"></pre>
 </body>
 <script>
-function _GETAll() {
-  fetch('https://my-json-server.typicode.com/egarcia920721/test-questionnaires/alumns')
-    .then(response => response.json())
-    .then(json => console.log(json))
+var showJSON = document.querySelector('#show');
+var showJSONAll = document.querySelector('#showResult');
+
+function _render(data) {
+  showJSON.innerHTML = JSON.stringify(data, undefined, 2);
+  _GETAll();
 }
 
-function _GETOnlyOne() {
-  fetch('https://my-json-server.typicode.com/egarcia920721/test-questionnaires/alumns/3')
+function _renderResult(data) {
+  showJSONAll.innerHTML = JSON.stringify(data, undefined, 2);
+}
+
+function _GETQuestionnaires() {
+  fetch('http://localhost:3000/questionnaires')
     .then(response => response.json())
-    .then(json => console.log(json))
+    .then(json => _renderResult(json))
+}
+
+function _GETProfile() {
+  fetch('http://localhost:3000/profile')
+    .then(response => response.json())
+    .then(json => _renderResult(json))
 }
 
 </script>
