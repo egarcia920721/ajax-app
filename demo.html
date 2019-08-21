@@ -7,36 +7,101 @@
   <title>Demo</title>
 </head>
 <body>
-  <button type="button" onclick="_GETQuestionnaires()">GET/ Questionnaires</button>
-  <button type="button" onclick="_GETProfile()">GET/ Profile</button>
+  <button type="button" onclick="_GETAll()">GET/ All</button>
+  <button type="button" onclick="_GETOne()">GET/ One</button>
+  <button type="button" onclick="_POSTOne()">POST/ One</button>
+  <button type="button" onclick="_PUTOne()">PUT/ One</button>
+  <button type="button" onclick="_PATCHOne()">PATCH/ One</button>
+  <button type="button" onclick="_DELETEOne()">DELETE/ One</button>
 
-  <pre id="show"></pre>
   <h2>Results:</h2>
-  <pre id="showResult"></pre>
+  <pre id="show"></pre>
+  <pre id="error"></pre>
 </body>
 <script>
 var showJSON = document.querySelector('#show');
-var showJSONAll = document.querySelector('#showResult');
-
-function _render(data) {
-  showJSON.innerHTML = JSON.stringify(data, undefined, 2);
-  _GETAll();
-}
+var errorJSON = document.querySelector('#error');
 
 function _renderResult(data) {
-  showJSONAll.innerHTML = JSON.stringify(data, undefined, 2);
+  showJSON.innerHTML = JSON.stringify(data, undefined, 2);
 }
 
-function _GETQuestionnaires() {
-  fetch('http://localhost:3000/questionnaires')
-    .then(response => response.json())
-    .then(json => _renderResult(json))
+function _renderError(data) {
+  errorJSON.innerHTML = JSON.stringify(data, undefined, 2);
 }
 
-function _GETProfile() {
-  fetch('http://localhost:3000/profile')
-    .then(response => response.json())
-    .then(json => _renderResult(json))
+function _GETAll() {
+  fetch('http://localhost:3000/posts')
+  .then(res => res.json())
+  .catch(error => _renderError(error))
+  .then(response => _renderResult(response));
+}
+
+function _GETOne() {
+  fetch('http://localhost:3000/posts/1')
+  .then(res => res.json())
+  .catch(error => _renderError(error))
+  .then(response => _renderResult(response));
+}
+
+function _POSTOne() {
+  var data = {
+    title: 'json-server-post',
+    author: 'typicode',
+  };
+  fetch('http://localhost:3000/posts', {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(res => res.json())
+    .catch(error => _renderError(error))
+    .then(response => _renderResult(response));
+}
+
+function _PUTOne() {
+  var data = {
+    title: 'json-server-put',
+    author: 'typicode',
+  };
+  fetch('http://localhost:3000/posts/2', {
+    method: 'PUT',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(res => res.json())
+    .catch(error => _renderError(error))
+    .then(response => _renderResult(response));
+}
+
+function _PATCHOne() {
+  var data = {
+    title: 'json-server-patch',
+    author: 'typicode',
+  };
+  fetch('http://localhost:3000/posts/3', {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(res => res.json())
+    .catch(error => _renderError(error))
+    .then(response => _renderResult(response));
+}
+
+function _DELETEOne() {
+  fetch('http://localhost:3000/posts/4', {
+    method: 'DELETE',
+  })
+    .then(res => res.json())
+    .catch(error => _renderError(error))
+    .then(response => _renderResult(response));
 }
 
 </script>
