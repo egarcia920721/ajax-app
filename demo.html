@@ -23,11 +23,13 @@ var showJSON = document.querySelector('#show');
 var errorJSON = document.querySelector('#error');
 
 function _renderResult(data) {
+  errorJSON.innerHTML = '';
   showJSON.innerHTML = JSON.stringify(data, undefined, 2);
 }
 
 function _renderError(data) {
-  errorJSON.innerHTML = JSON.stringify(data, undefined, 2);
+  showJSON.innerHTML = '';
+  errorJSON.innerHTML = `${data}`;
 }
 
 function _GETAll() {
